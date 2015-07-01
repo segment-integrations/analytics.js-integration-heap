@@ -1,5 +1,5 @@
 
-var Analytics = require('analytics.js').constructor;
+var Analytics = require('analytics.js-core').constructor;
 var each = require('each');
 var integration = require('analytics.js-integration');
 var sandbox = require('clear-env');

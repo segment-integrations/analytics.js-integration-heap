@@ -7,7 +7,9 @@
   "main": "lib/index.js",
   "dependencies": {
     "segmentio/analytics.js-integration": "^1.0.0",
-    "component/each": "0.0.1"
+    "component/each": "0.0.1",
+    "ianstormtaylor/is": "0.1.0",
+    "ndhoule/extend": "^1.0.1"
   },
   "development": {
     "segmentio/analytics.js-core": "^2.10.0",

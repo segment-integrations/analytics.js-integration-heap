@@ -87,8 +87,8 @@ describe('Heap', function() {
       });
 
       it('should send traits', function() {
-        analytics.identify({ trait: true });
-        analytics.called(window.heap.identify, { trait: true });
+        analytics.identify({ trait: true, number: 1 });
+        analytics.called(window.heap.identify, { trait: true, number: 1 });
       });
 
       it('should alias email to _email', function() {
@@ -105,6 +105,38 @@ describe('Heap', function() {
         analytics.identify('id', { trait: 'trait' });
         analytics.called(window.heap.identify, { handle: 'id', id: 'id', trait: 'trait' });
       });
+
+      it('should flatten nested objects and arrays', function() {
+        analytics.identify('id', {
+          email: 'teemo@teemo.com',
+          property: 3,
+          foo: {
+            bar: {
+              hello: 'teemo'
+            },
+            cheese: ['1', 2, 'cheers'],
+            products: [
+              { A: 'Jello' },
+              { B: 'Peanut' }
+            ]
+          }
+        });
+        analytics.called(window.heap.identify, {
+          handle: 'id',
+          id: 'id',
+          _email: 'teemo@teemo.com',
+          property: 3,
+          'foo.bar.hello': 'teemo',
+          'foo.cheese': '[\"1\",2,\"cheers\"]',
+          'foo.products': '[{\"A\":\"Jello\"},{\"B\":\"Peanut\"}]'
+         });
+      });
+
+      it('should send date traits as ISOStrings', function() {
+        var date = new Date('2016');
+        analytics.identify('id', { date: date });
+        analytics.called(window.heap.identify, { handle: 'id', id: 'id', date: '2016-01-01T00:00:00.000Z' });
+      });
     });
 
     describe('#track', function() {
@@ -120,6 +152,28 @@ describe('Heap', function() {
       it('should send an event and properties', function() {
         analytics.track('event', { property: true });
         analytics.called(window.heap.track, 'event', { property: true });
+      });
+
+      it('should flatten nested objects and arrays', function() {
+        analytics.track('event', {
+          property: 3,
+          foo: {
+            bar: {
+              hello: 'teemo'
+            },
+            cheese: ['1', 2, 'cheers'],
+            products: [
+              { A: 'Jello' },
+              { B: 'Peanut' }
+            ]
+          }
+        });
+        analytics.called(window.heap.track, 'event', {
+          property: 3,
+          'foo.bar.hello': 'teemo',
+          'foo.cheese': '[\"1\",2,\"cheers\"]',
+          'foo.products': '[{\"A\":\"Jello\"},{\"B\":\"Peanut\"}]'
+         });
       });
     });
   });

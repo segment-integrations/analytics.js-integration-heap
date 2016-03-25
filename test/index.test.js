@@ -175,6 +175,60 @@ describe('Heap', function() {
           'foo.products': '[{\"A\":\"Jello\"},{\"B\":\"Peanut\"}]'
          });
       });
+
+      it('value is object that contains an array containing 1 object', function() {
+        analytics.track('event', {
+          property: 3,
+          foo: { errors: [
+            {
+              field: 'card_number',
+              message: 'This field is required.'
+            }
+          ]}
+        });
+        analytics.called(window.heap.track, 'event', {
+          property: 3
+        });
+      });
+
+      it('value is array containing one object', function() {
+        analytics.track('event', {
+          property: 3,
+          errors: [
+            {
+              field: 'card_number',
+              message: 'This field is required.'
+            }
+          ]
+        });
+        analytics.called(window.heap.track, 'event', {
+          // property: 3
+          // the above is commented out to get the test to fail so as to see the output. The value that is an array containing one object appears to be ignore in the output.
+        });
+      });
+
+      it('value is array containing three objects', function() {
+        analytics.track('event', {
+          property: 3,
+          errors: [
+            {
+              field: 'card_number',
+              message: 'This field is required.'
+            },
+            {
+              field: 'card_expiry',
+              message: 'This field is required.'
+            },
+            {
+              field: 'card_code',
+              message: 'This field is required.'
+            }
+          ]
+        });
+        analytics.called(window.heap.track, 'event', {
+          property: 3
+        });
+      });
     });
   });
 });

@@ -47,7 +47,7 @@ describe('Heap', function() {
       });
 
       it('should stub window.heap with the right methods', function() {
-        var methods = ['clearEventProperties', 'identify', 'setEventProperties', 'track', 'unsetEventProperty'];
+        var methods = ['addEventProperties', 'addUserProperties', 'clearEventProperties', 'identify', 'removeEventProperty', 'setEventProperties', 'track', 'unsetEventProperty'];
         analytics.assert(!window.heap);
         analytics.initialize();
         each(methods, function(method) {
@@ -84,26 +84,28 @@ describe('Heap', function() {
     describe('#identify', function() {
       beforeEach(function() {
         analytics.stub(window.heap, 'identify');
+        analytics.stub(window.heap, 'addUserProperties');
       });
 
       it('should send traits', function() {
         analytics.identify({ trait: true, number: 1 });
-        analytics.called(window.heap.identify, { trait: true, number: 1 });
+        analytics.called(window.heap.addUserProperties, { trait: true, number: 1 });
       });
 
       it('should alias email to _email', function() {
         analytics.identify({ trait: true, email: 'email@email.org' });
-        analytics.called(window.heap.identify, { trait: true, _email: 'email@email.org' });
+        analytics.called(window.heap.addUserProperties, { trait: true, _email: 'email@email.org' });
       });
 
       it('should send id as handle', function() {
         analytics.identify('id');
-        analytics.called(window.heap.identify, { handle: 'id', id: 'id' });
+        analytics.called(window.heap.identify, 'id');
       });
 
       it('should send id as handle and traits', function() {
         analytics.identify('id', { trait: 'trait' });
-        analytics.called(window.heap.identify, { handle: 'id', id: 'id', trait: 'trait' });
+        analytics.called(window.heap.identify, 'id');
+        analytics.called(window.heap.addUserProperties, { id: 'id', trait: 'trait' });
       });
 
       it('should flatten nested objects and arrays', function() {
@@ -121,9 +123,9 @@ describe('Heap', function() {
             ]
           }
         });
-        analytics.called(window.heap.identify, {
-          handle: 'id',
-          id: 'id',
+        analytics.called(window.heap.identify, 'id');
+        analytics.called(window.heap.addUserProperties, {
+           id: 'id',
           _email: 'teemo@teemo.com',
           property: 3,
           'foo.bar.hello': 'teemo',
@@ -135,7 +137,8 @@ describe('Heap', function() {
       it('should send date traits as ISOStrings', function() {
         var date = new Date('2016');
         analytics.identify('id', { date: date });
-        analytics.called(window.heap.identify, { handle: 'id', id: 'id', date: '2016-01-01T00:00:00.000Z' });
+        analytics.called(window.heap.identify, 'id');
+        analytics.called(window.heap.addUserProperties, { id: 'id', date: '2016-01-01T00:00:00.000Z' });
       });
     });
 

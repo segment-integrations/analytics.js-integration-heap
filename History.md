@@ -1,4 +1,9 @@
 
+1.1.0 / 2016-04-11
+==================
+
+  * Update to use new identify and addUserProperties
+
 1.0.5 / 2016-02-23
 ==================
 

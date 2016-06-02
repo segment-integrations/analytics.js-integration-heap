@@ -1,9 +1,10 @@
+'use strict';
 
-var Analytics = require('analytics.js-core').constructor;
-var each = require('each');
-var integration = require('analytics.js-integration');
-var sandbox = require('clear-env');
-var tester = require('analytics.js-integration-tester');
+var Analytics = require('@segment/analytics.js-core').constructor;
+var each = require('component-each');
+var integration = require('@segment/analytics.js-integration');
+var sandbox = require('@segment/clear-env');
+var tester = require('@segment/analytics.js-integration-tester');
 var Heap = require('../lib/');
 
 describe('Heap', function() {
@@ -125,13 +126,13 @@ describe('Heap', function() {
         });
         analytics.called(window.heap.identify, 'id');
         analytics.called(window.heap.addUserProperties, {
-           id: 'id',
+          id: 'id',
           _email: 'teemo@teemo.com',
           property: 3,
           'foo.bar.hello': 'teemo',
           'foo.cheese': '[\"1\",2,\"cheers\"]',
           'foo.products': '[{\"A\":\"Jello\"},{\"B\":\"Peanut\"}]'
-         });
+        });
       });
 
       it('should send date traits as ISOStrings', function() {
@@ -176,7 +177,7 @@ describe('Heap', function() {
           'foo.bar.hello': 'teemo',
           'foo.cheese': '[\"1\",2,\"cheers\"]',
           'foo.products': '[{\"A\":\"Jello\"},{\"B\":\"Peanut\"}]'
-         });
+        });
       });
     });
   });

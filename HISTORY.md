@@ -1,3 +1,9 @@
+
+2.0.1 / 2016-07-08
+==================
+
+  * fix uncaught bug when sending undefined properties
+
 2.0.0 / 2016-06-21
 ==================
 

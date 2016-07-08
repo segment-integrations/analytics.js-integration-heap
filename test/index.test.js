@@ -158,6 +158,11 @@ describe('Heap', function() {
         analytics.called(window.heap.track, 'event', { property: true });
       });
 
+      it('should filter out undefined or null props', function() {
+        analytics.track('event', { property: undefined, prop2: null });
+        analytics.called(window.heap.track, 'event', {});
+      });
+
       it('should flatten nested objects and arrays', function() {
         analytics.track('event', {
           property: 3,

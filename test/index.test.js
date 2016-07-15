@@ -62,6 +62,15 @@ describe('Heap', function() {
         analytics.assert(window.heap.appid === options.appId);
       });
 
+      // TODO: this test needs to be fixed
+      it('should addEventProperties if props exist on globals', function() {
+        window.heap = [];
+        window.heapEventProperties = { articuno: 'found' };
+        analytics.stub(window.heap, 'addEventProperties');
+        analytics.initialize();
+        analytics.called(window.heap.addEventProperties, { articuno: 'found' });
+      });
+
       it('should call #load', function() {
         analytics.initialize();
         analytics.called(heap.load);

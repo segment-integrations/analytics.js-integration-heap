@@ -63,7 +63,7 @@ describe('Heap', function() {
       });
 
       // TODO: this test needs to be fixed
-      it('should addEventProperties if props exist on globals', function() {
+      it.only('should addEventProperties if props exist on globals', function() {
         window.heap = [];
         window.heapEventProperties = { articuno: 'found' };
         analytics.stub(window.heap, 'addEventProperties');

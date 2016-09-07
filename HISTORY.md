@@ -1,4 +1,10 @@
 
+2.0.3 / 2016-09-07
+==================
+
+  * update analytics.js-integration
+  * fix flattening
+
 2.0.2 / 2016-07-08
 ==================
 

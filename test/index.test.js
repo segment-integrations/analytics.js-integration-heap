@@ -117,12 +117,12 @@ describe('Heap', function() {
             bar: {
               hello: 'teemo'
             },
-            cheese: ['1', 2, 'cheers'],
-            products: [
-              { A: 'Jello' },
-              { B: 'Peanut' }
-            ]
-          }
+            cheese: ['1', 2, 'cheers']
+          },
+          products: [
+          { A: 'Jello', B: 1 },
+          { B: 'Peanut', C: true }
+          ]
         });
         analytics.called(window.heap.identify, 'id');
         analytics.called(window.heap.addUserProperties, {
@@ -131,7 +131,7 @@ describe('Heap', function() {
           property: 3,
           'foo.bar.hello': 'teemo',
           'foo.cheese': '[\"1\",2,\"cheers\"]',
-          'foo.products': '[{\"A\":\"Jello\"},{\"B\":\"Peanut\"}]'
+          products: '[{\"A\":\"Jello\",\"B\":1},{\"B\":\"Peanut\",\"C\":true}]'
         });
       });
 
@@ -165,23 +165,27 @@ describe('Heap', function() {
 
       it('should flatten nested objects and arrays', function() {
         analytics.track('event', {
+          hello: 'hello',
           property: 3,
           foo: {
             bar: {
               hello: 'teemo'
             },
-            cheese: ['1', 2, 'cheers'],
-            products: [
-              { A: 'Jello' },
-              { B: 'Peanut' }
-            ]
-          }
+            cheese: ['1', 2, 'cheers']
+          },
+          products: [
+          { A: 'Jello', B: 'haha' },
+          { A: 'Peanut', B: true }
+          ],
+          topArray: ['1', 2, true]
         });
         analytics.called(window.heap.track, 'event', {
+          hello: 'hello',
           property: 3,
           'foo.bar.hello': 'teemo',
           'foo.cheese': '[\"1\",2,\"cheers\"]',
-          'foo.products': '[{\"A\":\"Jello\"},{\"B\":\"Peanut\"}]'
+          products: '[{\"A\":\"Jello\",\"B\":\"haha\"},{\"A\":\"Peanut\",\"B\":true}]',
+          topArray: '[\"1\",2,true]'
         });
       });
     });

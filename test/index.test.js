@@ -48,7 +48,7 @@ describe('Heap', function() {
       });
 
       it('should stub window.heap with the right methods', function() {
-        var methods = ['addEventProperties', 'addUserProperties', 'clearEventProperties', 'identify', 'removeEventProperty', 'setEventProperties', 'track', 'unsetEventProperty'];
+        var methods = ['addEventProperties', 'addUserProperties', 'clearEventProperties', 'identify', 'removeEventProperty', 'setEventProperties', 'track', 'unsetEventProperty', 'resetIdentity'];
         analytics.assert(!window.heap);
         analytics.initialize();
         each(methods, function(method) {
@@ -98,14 +98,14 @@ describe('Heap', function() {
         analytics.called(window.heap.addUserProperties, { trait: true, _email: 'email@email.org' });
       });
 
-      it('should send id as handle', function() {
+      it('should send id as handle with the correct field name', function() {
         analytics.identify('id');
-        analytics.called(window.heap.identify, 'id');
+        analytics.called(window.heap.identify, 'id', 'Segment User Id');
       });
 
       it('should send id as handle and traits', function() {
         analytics.identify('id', { trait: 'trait' });
-        analytics.called(window.heap.identify, 'id');
+        analytics.called(window.heap.identify, 'id', 'Segment User Id');
         analytics.called(window.heap.addUserProperties, { id: 'id', trait: 'trait' });
       });
 
@@ -124,7 +124,7 @@ describe('Heap', function() {
           { B: 'Peanut', C: true }
           ]
         });
-        analytics.called(window.heap.identify, 'id');
+        analytics.called(window.heap.identify, 'id', 'Segment User Id');
         analytics.called(window.heap.addUserProperties, {
           id: 'id',
           _email: 'teemo@teemo.com',
@@ -138,8 +138,14 @@ describe('Heap', function() {
       it('should send date traits as ISOStrings', function() {
         var date = new Date('2016');
         analytics.identify('id', { date: date });
-        analytics.called(window.heap.identify, 'id');
+        analytics.called(window.heap.identify, 'id', 'Segment User Id');
         analytics.called(window.heap.addUserProperties, { id: 'id', date: '2016-01-01T00:00:00.000Z' });
+      });
+
+      it('should call identify with crossDomainId if included', function() {
+        analytics.identify({ crossDomainId: 'crossDomainId' });
+        analytics.called(window.heap.identify, 'crossDomainId', 'Segment Cross-domain Id');
+        analytics.called(window.heap.addUserProperties, { crossDomainId: 'crossDomainId' });
       });
     });
 

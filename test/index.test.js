@@ -48,7 +48,7 @@ describe('Heap', function() {
       });
 
       it('should stub window.heap with the right methods', function() {
-        var methods = ['addEventProperties', 'addUserProperties', 'clearEventProperties', 'identify', 'removeEventProperty', 'setEventProperties', 'track', 'unsetEventProperty'];
+        var methods = ['addEventProperties', 'addUserProperties', 'clearEventProperties', 'identify', 'removeEventProperty', 'setEventProperties', 'track', 'unsetEventProperty', 'resetIdentity'];
         analytics.assert(!window.heap);
         analytics.initialize();
         each(methods, function(method) {

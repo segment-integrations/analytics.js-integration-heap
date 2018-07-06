@@ -1,4 +1,9 @@
 
+2.1.1 / 2018-07-06
+==================
+
+  * Merge pull request #14 from segment-integrations/revert_heap_issue
+
 2.1.0 / 2018-05-21
 ==================
 
